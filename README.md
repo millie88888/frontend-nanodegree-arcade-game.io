@@ -10,3 +10,6 @@ For detailed instructions on how to get started, check out this [guide](https://
 
 The player must avoid the bugs and collect stars as much as you can. Scores adds up everytime you collect it.
 
+# How to install
+You can play the game by visit [website](https://millie88888.github.io/game.github.io/)
+or also you can download the file and open the index.html. Enjoy it!
