@@ -10,6 +10,21 @@ For detailed instructions on how to get started, check out this [guide](https://
 
 The player must avoid the bugs and collect stars as much as you can. Scores adds up everytime you collect it.
 
-# How to install
+# How to install and run
 You can play the game by visit [website](https://millie88888.github.io/game.github.io/)
 or also you can download the file and open the index.html. Enjoy it!
+
+# Configuration
+
+The js file includes three files including, app.js, engine.js, resource.js.
+
+The app.js contains all game functions that involve: sprite rendering, sprite movement, collision detection, keyboard input, game scoring and collectable item functions.
+
+The engine.js handles the game loop functionality, renders the initial gameboard, and calls/updates the rendered sprites.
+
+resources.js is the image loading utility.
+
+# Authors
+
+Jialing Liu 
+
