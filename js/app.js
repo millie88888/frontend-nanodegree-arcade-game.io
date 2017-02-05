@@ -2,64 +2,76 @@
 // Player
 // Gem 
 
+var scoreCount = 0;
+
+//<-------------Enemy section------------>//
+
+// Create Enemy object for width, hight, 
+// speed(getRandomInt with getRandomInt function) 
+// and sprite for the ememy picture.
 var Enemy = function () {
-    this.x;
-    this.y;
     this.w = 101;
     this.h = 171;
     this.speed = getRandomInt(100,300);
-    this.sprite = 'images/enemy-bug.png'
+    this.sprite = 'images/enemy-bug.png';
 };
 
-function getRandomInt(min, max){
-    return Math.floor(Math.random() * (max - min + 10)) + min;
-}
-
-
-Enemy.prototype.update = function(dt) {
-
-    if(this.x < 500){
-        this.x += this.speed * dt;
-    } else {
-        this.x = -Math.random() * 100;
+    //getRandomInt is for random speed
+    function getRandomInt(min, max){
+        return Math.floor(Math.random() * (max - min + 30)) + min;
     }
 
-};
+    //UPDATE Enemy's position
+    //Parameter: dt, a time delta between ticks 
+    Enemy.prototype.update = function(dt) {
 
-Enemy.prototype.render = function() {
+        if(this.x < 505){
+        this.x += this.speed * dt;
+        } else {
+        this.x = -Math.random() * 5;
+        }
 
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    };
 
-};
+    // RENDER for draw Enemy object and also with method
+    Enemy.prototype.render = function() {
+        ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    };
 
+//<-------------Player section------------>//
+
+// Create Player object for x, y, width, hight,
+// and sprite for the ememy picture.
 var Player = function () {
-    this.x = 200;
-    this.y = 400;
+    this.x = 202;
+    this.y = 404;
     this.w = 101;
     this.h = 171;
-    this.sprite = 'images/char-boy.png'
+    this.sprite = 'images/char-princess-girl.png';
 };
 
-
-Player.prototype.update = function(dt) {
-    if (this.collision()) {
-    this.reset();
-  }
-
-    if (this.y < 11) {
-        alert("YOU WIN!");
+    //UPDATE for Player's posistion
+    //collsion, reset, to reach the water and get gems
+    Player.prototype.update = function(dt) {
+        if (this.collision()) {
         this.reset();
-    }
+        }
 
+        if (this.y < 1) {
+        alert("YOU SAFE!");
+        this.reset();
+        }
 
-};
+        this.gemCollect();
 
+        };
 
+ // RENDER for draw Player object and also with method
 Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-
 };
 
+//  HANDLEINPUT class is for Player's direction
 Player.prototype.handleInput = function(direction) {
 
     if (direction === 'down' && this.y < 400) {
@@ -80,66 +92,79 @@ Player.prototype.handleInput = function(direction) {
 
 };
 
-
+// RESET class is for reset position and score"0" for Player
 Player.prototype.reset = function() {
     this.x = 202;
     this.y = 404;
+    scoreCount = 0;
+    document.getElementById("scoreCounter").innerHTML = scoreCount;
 };
 
+// COLLISION class is for Player colide with bugs
 Player.prototype.collision = function() {
 
-  for (var bugggg = 0; bugggg < allEnemies.length; bugggg++) {
-    if (this.x < allEnemies[bugggg].x + 50 && 
-        this.x + 50 > allEnemies[bugggg].x && 
-        this.y < allEnemies[bugggg].y + 30 && 
-        this.y + 30 > allEnemies[bugggg].y) {
+  for (var redbug = 0; redbug < allEnemies.length; redbug++) {
+    if (this.x < allEnemies[redbug].x + 50 && 
+        this.x + 50 > allEnemies[redbug].x && 
+        this.y < allEnemies[redbug].y + 30 && 
+        this.y + 30 > allEnemies[redbug].y) {
         this.reset();
-
+        scoreCount -= 0;
+        document.getElementById("scoreCounter").innerHTML = scoreCount;
     }
   }
-
-  for ( var gemmm = 0; gemmm < allGem.length; gemmm++) {
-    if (this.x < allGem[gemmm].x + 50 &&
-        this.x + 50 > allGem[gemmm].x &&
-        this.y < allGem[gemmm].y + 30 &&
-        this.y + 30 > allGem[gemmm].y){
-        allGem.splice(gemmm, 1);
-    }   
-  }
-
 };
 
 
+// GEMCOLLECT class is for player get gems and adds scores up
+Player.prototype.gemCollect = function() {
+    if(this.x < gem.x + gem.w &&
+        this.x + this.w > gem.x &&
+            this.y < gem.y + gem.h &&
+            this.h + this.y > gem.y) {
 
+            gem.x = Math.round(Math.random() * 560) + 1;
+            gem.y = Math.round(Math.random() * 360) + 70;
+            
+            scoreCount += 25;
+            document.getElementById("scoreCounter").innerHTML = scoreCount;
+        }
+    };
+
+
+
+//<-------------Gem section------------>//
+// Create Gem object for x, y, width, hight,
+// and sprite for the gem picture.
 var Gem = function(x, y) {
-
     this.x = x;
     this.y = y;
     this.w = 85;
     this.h = 50;
-    this.sprite = 'images/Gem Blue.png'
+    this.sprite = 'images/Star.png';
 
-}
+};
 
+ // RENDER for draw Gem object and also with method
 Gem.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    ctx.drawImage(Resources.get(this.sprite),this.x,this.y,101,171);
+};
 
+// randomGemX is for gem's X are show random on the screen
+var randomGemX = function() {
+    return Math.round(Math.random() * 560) + 1;
+};
+
+// randomGemY is for gem's Y are show random on the screen
+var randomGemY = function() {
+    return Math.round(Math.random() * 360) + 70;
 };
 
 
-function getRandomInt(min, max){
-    return Math.floor(Math.random() * (max - min + 10)) + min;
-}
-
-Gem.prototype.update = function(dt) {
-   this.x = Math.floor(Math.random() * 1 +1) * 100;
-   this.y = Math.floor(Math.random() * 1 +1) * 100;
-};
 
 
 
-
-
+//<-------------instantiate objects ------------>
 var firstEnemy = new Enemy();
 firstEnemy.x = -101;
 firstEnemy.y = 62;
@@ -152,17 +177,13 @@ var thirdEnemy = new Enemy();
 thirdEnemy.x = -101;
 thirdEnemy.y = 228;
 
-var fourthEnemy = new Enemy();
-fourthEnemy.x = -505;
-fourthEnemy.y = 62;
+var allEnemies = [firstEnemy, secondEnemy, thirdEnemy];
 
-var allEnemies = [firstEnemy, secondEnemy, thirdEnemy, fourthEnemy];
+
 
 var player = new Player();
 
-var allGem = [new Gem(100,240), new Gem(400, 150), new Gem(300,70), new Gem(0, 80)];
-
-
+var gem = new Gem(randomGemX(),randomGemY());
 
 
 
@@ -177,152 +198,5 @@ document.addEventListener('keyup', function(e) {
     player.handleInput(allowedKeys[e.keyCode]);
 });
 
-/*
-// Enemy
-// Player
-// Gem 
 
-var Enemy = function () {
-    this.x;
-    this.y;
-    this.w = 101;
-    this.h = 171;
-    this.speed = getRandomInt(100,300);
-    this.sprite = 'images/enemy-bug.png'
-};
-
-function getRandomInt(min, max){
-    return Math.floor(Math.random() * (max - min + 10)) + min;
-}
-
-
-Enemy.prototype.update = function(dt) {
-
-    if(this.x < 500){
-        this.x += this.speed * dt;
-    } else {
-        this.x = -Math.random() * 300;
-    }
-
-};
-
-Enemy.prototype.render = function() {
-
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-
-};
-
-var Player = function () {
-    this.x = 200;
-    this.y = 400;
-    this.w = 101;
-    this.h = 171;
-    this.sprite = 'images/char-boy.png'
-};
-
-
-Player.prototype.update = function(dt) {
-    if (this.collision()) {
-    this.reset();
-  }
-
-    if (this.y < 11) {
-        alert("YOU WIN!");
-        this.reset();
-    }
-
-
-};
-
-
-Player.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-
-};
-
-Player.prototype.handleInput = function(direction) {
-
-    if (direction === 'down' && this.y < 400) {
-        this.y += 85;
-    }
-
-    if (direction === 'right' && this.x < 400) {
-        this.x += 100;
-    }
-
-    if (direction === 'up' && this.y > 0) {
-        this.y -= 85;
-    }
-
-    if (direction === 'left' && this.x > 0) {
-        this.x -= 100;
-    }    
-
-};
-
-
-Player.prototype.reset = function() {
-    this.x = 202;
-    this.y = 404;
-};
-
-Player.prototype.collision = function() {
-  // For loop checks if enemy has collided with player.
-  // If they collide, player resets location.
-  for (var bugggg = 0; bugggg < allEnemies.length; bugggg++) {
-    if (this.x < allEnemies[bugggg].x + 50 && 
-        this.x + 50 > allEnemies[bugggg].x && 
-        this.y < allEnemies[bugggg].y + 30 && 
-        this.y + 30 > allEnemies[bugggg].y) {
-        this.reset();
-
-    }
-  }            
-
-
-
-
-};
-
-
-
-
-
-
-var firstEnemy = new Enemy();
-firstEnemy.x = -101;
-firstEnemy.y = 62;
-
-var secondEnemy = new Enemy();
-secondEnemy.x = -101;
-secondEnemy.y = 145;
-
-var thirdEnemy = new Enemy();
-thirdEnemy.x = -101;
-thirdEnemy.y = 228;
-
-var fourthEnemy = new Enemy();
-fourthEnemy.x = -505;
-fourthEnemy.y = 62;
-
-var allEnemies = [firstEnemy, secondEnemy, thirdEnemy, fourthEnemy];
-
-var player = new Player();
-
-
-
-
-
-document.addEventListener('keyup', function(e) {
-    var allowedKeys = {
-        37: 'left',
-        38: 'up',
-        39: 'right',
-        40: 'down'
-    };
-
-    player.handleInput(allowedKeys[e.keyCode]);
-});
-
-*/
 
