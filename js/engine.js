@@ -13,7 +13,6 @@
  * the canvas' context (ctx) object globally available to make writing app.js
  * a little simpler to work with.
  */
-
 var Engine = (function(global) {
     /* Predefine the variables we'll be using within this scope,
      * create the canvas element, grab the 2D context for that canvas
@@ -33,8 +32,8 @@ var Engine = (function(global) {
 
     doc.body.appendChild(canvas);
 
-    
-            
+
+
 
     /* This function serves as the kickoff point for the game loop itself
      * and handles properly calling the update and render methods.
@@ -48,7 +47,7 @@ var Engine = (function(global) {
          */
 
 
-         
+
         var now = Date.now(),
             dt = (now - lastTime) / 1000.0;
 
@@ -74,7 +73,7 @@ var Engine = (function(global) {
      * game loop.
      */
     function init() {
-//        reset();
+        //        reset();
         lastTime = Date.now();
         main();
     }
@@ -107,7 +106,7 @@ var Engine = (function(global) {
         });
         player.update();
 
-         
+
     }
 
     /* This function initially draws the "game level", it will then call
@@ -128,12 +127,12 @@ var Engine = (function(global) {
 
 
         var rowImages = [
-                'images/water-block.png',   // Top row is water
-                'images/stone-block.png',   // Row 1 of 3 of stone
-                'images/stone-block.png',   // Row 2 of 3 of stone
-                'images/stone-block.png',   // Row 3 of 3 of stone
-                'images/grass-block.png',   // Row 1 of 2 of grass
-                'images/grass-block.png'    // Row 2 of 2 of grass
+                'images/water-block.png', // Top row is water
+                'images/stone-block.png', // Row 1 of 3 of stone
+                'images/stone-block.png', // Row 2 of 3 of stone
+                'images/stone-block.png', // Row 3 of 3 of stone
+                'images/grass-block.png', // Row 1 of 2 of grass
+                'images/grass-block.png' // Row 2 of 2 of grass
             ],
             numRows = 6,
             numCols = 5,
@@ -158,10 +157,10 @@ var Engine = (function(global) {
 
         renderEntities();
 
-            ctx.font = "36px Comic Sans MS";
-            ctx.fillStyle = "orange";
-            ctx.fillText("BUGGIES DAILY", 110,30);
-  
+        ctx.font = "36px Comic Sans MS";
+        ctx.fillStyle = "orange";
+        ctx.fillText("BUGGIES DAILY", 110, 30);
+
     }
 
     /* This function is called by the render function and is called on each game
@@ -181,7 +180,7 @@ var Engine = (function(global) {
         });
 
         player.render();
-         gem.render();
+        gem.render();
 
     }
 
@@ -190,7 +189,7 @@ var Engine = (function(global) {
      * those sorts of things. It's only called once by the init() method.
      */
     function reset() {
-            // noop
+        // noop
     }
 
     /* Go ahead and load all of the images we know we're going to need to

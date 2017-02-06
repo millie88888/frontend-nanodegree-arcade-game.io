@@ -1,7 +1,6 @@
 // Enemy
 // Player
 // Gem 
-
 var scoreCount = 0;
 
 //<-------------Enemy section------------>//
@@ -9,40 +8,38 @@ var scoreCount = 0;
 // Create Enemy object for width, hight, 
 // speed(getRandomInt with getRandomInt function) 
 // and sprite for the ememy picture.
-var Enemy = function () {
+var Enemy = function() {
     this.w = 101;
     this.h = 171;
-    this.speed = getRandomInt(100,300);
+    this.speed = Math.random() * 300 + 50;
     this.sprite = 'images/enemy-bug.png';
 };
 
-    //getRandomInt is for random speed
-    function getRandomInt(min, max){
-        return Math.floor(Math.random() * (max - min + 30)) + min;
+//UPDATE Enemy's position
+//Parameter: dt, a time delta between ticks 
+Enemy.prototype.update = function(dt) {
+
+    if (this.x < 505) {
+        this.x += this.speed * dt;
+    } else {
+        this.x = -Math.random() * 5;
     }
 
-    //UPDATE Enemy's position
-    //Parameter: dt, a time delta between ticks 
-    Enemy.prototype.update = function(dt) {
+};
 
-        if(this.x < 505){
-        this.x += this.speed * dt;
-        } else {
-        this.x = -Math.random() * 5;
-        }
+// RENDER for draw Enemy object and also with method
+Enemy.prototype.render = function() {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+};
 
-    };
 
-    // RENDER for draw Enemy object and also with method
-    Enemy.prototype.render = function() {
-        ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-    };
+
 
 //<-------------Player section------------>//
 
 // Create Player object for x, y, width, hight,
 // and sprite for the ememy picture.
-var Player = function () {
+var Player = function() {
     this.x = 202;
     this.y = 404;
     this.w = 101;
@@ -50,30 +47,29 @@ var Player = function () {
     this.sprite = 'images/char-princess-girl.png';
 };
 
-    //UPDATE for Player's posistion
-    //collsion, reset, to reach the water and get gems
-    Player.prototype.update = function(dt) {
-        if (this.collision()) {
+//UPDATE for Player's posistion
+//collsion, reset, to reach the water and get gems
+Player.prototype.update = function(dt) {
+    if (this.collision()) {
         this.reset();
-        }
+    }
 
-        if (this.y < 1) {
+    if (this.y < 1) {
         alert("YOU SAFE!");
         this.reset();
-        }
+    }
 
-        this.gemCollect();
+    this.gemCollect();
 
-        };
+};
 
- // RENDER for draw Player object and also with method
+// RENDER for draw Player object and also with method
 Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
 //  HANDLEINPUT class is for Player's direction
 Player.prototype.handleInput = function(direction) {
-
     if (direction === 'down' && this.y < 400) {
         this.y += 85;
     }
@@ -86,9 +82,10 @@ Player.prototype.handleInput = function(direction) {
         this.y -= 85;
     }
 
-    if (direction === 'left' && this.x > 0) {
+    if (direction === 'left' && this.x > 10) {
         this.x -= 100;
-    }    
+    }
+
 
 };
 
@@ -103,33 +100,33 @@ Player.prototype.reset = function() {
 // COLLISION class is for Player colide with bugs
 Player.prototype.collision = function() {
 
-  for (var redbug = 0; redbug < allEnemies.length; redbug++) {
-    if (this.x < allEnemies[redbug].x + 50 && 
-        this.x + 50 > allEnemies[redbug].x && 
-        this.y < allEnemies[redbug].y + 30 && 
-        this.y + 30 > allEnemies[redbug].y) {
-        this.reset();
-        scoreCount -= 0;
-        document.getElementById("scoreCounter").innerHTML = scoreCount;
+    for (var redbug = 0; redbug < allEnemies.length; redbug++) {
+        if (this.x < allEnemies[redbug].x + 50 &&
+            this.x + 50 > allEnemies[redbug].x &&
+            this.y < allEnemies[redbug].y + 30 &&
+            this.y + 30 > allEnemies[redbug].y) {
+            this.reset();
+            scoreCount -= 0;
+            document.getElementById("scoreCounter").innerHTML = scoreCount;
+        }
     }
-  }
 };
 
 
 // GEMCOLLECT class is for player get gems and adds scores up
 Player.prototype.gemCollect = function() {
-    if(this.x < gem.x + gem.w &&
+    if (this.x < gem.x + gem.w &&
         this.x + this.w > gem.x &&
-            this.y < gem.y + gem.h &&
-            this.h + this.y > gem.y) {
+        this.y < gem.y + gem.h &&
+        this.h + this.y > gem.y) {
 
-            gem.x = Math.round(Math.random() * 560) + 1;
-            gem.y = Math.round(Math.random() * 360) + 70;
-            
-            scoreCount += 25;
-            document.getElementById("scoreCounter").innerHTML = scoreCount;
-        }
-    };
+        gem.x = Math.round(Math.random() * 560) + 1;
+        gem.y = Math.round(Math.random() * 360) + 70;
+
+        scoreCount += 25;
+        document.getElementById("scoreCounter").innerHTML = scoreCount;
+    }
+};
 
 
 
@@ -145,9 +142,9 @@ var Gem = function(x, y) {
 
 };
 
- // RENDER for draw Gem object and also with method
+// RENDER for draw Gem object and also with method
 Gem.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite),this.x,this.y,101,171);
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y, 101, 171);
 };
 
 // randomGemX is for gem's X are show random on the screen
@@ -159,7 +156,6 @@ var randomGemX = function() {
 var randomGemY = function() {
     return Math.round(Math.random() * 360) + 70;
 };
-
 
 
 
@@ -183,7 +179,7 @@ var allEnemies = [firstEnemy, secondEnemy, thirdEnemy];
 
 var player = new Player();
 
-var gem = new Gem(randomGemX(),randomGemY());
+var gem = new Gem(randomGemX(), randomGemY());
 
 
 
@@ -197,6 +193,3 @@ document.addEventListener('keyup', function(e) {
 
     player.handleInput(allowedKeys[e.keyCode]);
 });
-
-
-
