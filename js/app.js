@@ -174,13 +174,8 @@ thirdEnemy.x = -101;
 thirdEnemy.y = 228;
 
 var allEnemies = [firstEnemy, secondEnemy, thirdEnemy];
-
-
-
 var player = new Player();
-
 var gem = new Gem(randomGemX(), randomGemY());
-
 
 
 document.addEventListener('keyup', function(e) {
