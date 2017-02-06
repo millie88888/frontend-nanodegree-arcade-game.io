@@ -71,19 +71,19 @@ Player.prototype.render = function() {
 //  HANDLEINPUT class is for Player's direction
 Player.prototype.handleInput = function(direction) {
     if (direction === 'down' && this.y < 400) {
-        this.y += 85;
+        this.y += 83;
     }
 
     if (direction === 'right' && this.x < 400) {
-        this.x += 100;
+        this.x += 101;
     }
 
     if (direction === 'up' && this.y > 0) {
-        this.y -= 85;
+        this.y -= 83;
     }
 
     if (direction === 'left' && this.x > 10) {
-        this.x -= 100;
+        this.x -= 101;
     }
 
 
